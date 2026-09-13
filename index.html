@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Anatomy Atlas — Interactive 3D Human Body</title>
+  <meta name="description" content="An interactive 3D atlas of the human body: rotate a scanned muscular figure and select organs across the circulatory, respiratory, nervous, digestive, musculoskeletal and immune systems." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/css/style.css" />
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <a class="skip-link" href="#viewer">Skip to 3D viewer</a>
+
+  <!-- ============ NAV ============ -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="wordmark" href="#" data-action="home">
+        <span class="wordmark-mark">Ⓐ</span> Anatomy&nbsp;Atlas
+      </a>
+
+      <nav class="primary-nav" id="primary-nav" aria-label="Body systems">
+        <button class="nav-link" data-action="home" aria-current="page">Home</button>
+        <button class="nav-link" data-system="circulatory">Circulatory</button>
+        <button class="nav-link" data-system="respiratory">Respiratory</button>
+        <button class="nav-link" data-system="nervous">Nervous</button>
+        <button class="nav-link" data-system="digestive">Digestive</button>
+        <button class="nav-link" data-system="musculoskeletal">Musculoskeletal</button>
+        <button class="nav-link" data-system="immune">Immune</button>
+        <button class="nav-link" data-action="about">About</button>
+      </nav>
+
+      <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============ MAIN VIEWER ============ -->
+  <main id="viewer">
+
+    <section class="hero-copy" id="home-copy">
+      <p class="eyebrow-plain">A study aid for the whole body</p>
+      <h1>One scanned figure, six systems to explore.</h1>
+      <p class="lede">The model turns on its own — drag any time to look closer — while
+        the pins mark every clickable structure. Select one for its atlas entry: location,
+        size, function and significance, read on the left.</p>
+    </section>
+
+    <!-- Info panel (atlas page) -->
+    <aside class="info-panel" id="info-panel" aria-live="polite">
+      <div class="info-panel-empty" id="info-empty">
+        <p class="eyebrow-plain">Atlas index</p>
+        <h2>Select a structure</h2>
+        <p>Choose any highlighted region of the model, or pick a system from the
+          navigation above, to open its entry here.</p>
+      </div>
+
+      <article class="info-panel-content" id="info-content" hidden>
+        <button class="info-close" id="info-close" aria-label="Close entry">×</button>
+        <p class="info-system" id="info-system"></p>
+        <h2 id="info-name"></h2>
+        <p class="info-synonyms" id="info-synonyms"></p>
+
+        <dl class="info-facts">
+          <div>
+            <dt>Location</dt>
+            <dd id="info-location"></dd>
+          </div>
+          <div>
+            <dt>Size</dt>
+            <dd id="info-size"></dd>
+          </div>
+        </dl>
+
+        <section class="info-block">
+          <h3>Anatomical structure</h3>
+          <p id="info-structure"></p>
+        </section>
+
+        <section class="info-block">
+          <h3>Physiological function</h3>
+          <p id="info-function"></p>
+        </section>
+
+        <section class="info-block">
+          <h3>Clinical significance</h3>
+          <p id="info-clinical"></p>
+        </section>
+      </article>
+    </aside>
+
+    <div class="stage">
+      <canvas id="scene-canvas" aria-label="Interactive 3D model of the human body"></canvas>
+
+      <div class="stage-loading" id="stage-loading">
+        <span>Loading the scan…</span>
+      </div>
+
+      <!-- Legend -->
+      <div class="legend" id="legend">
+        <p class="legend-title">Systems on view</p>
+        <ul id="legend-list"></ul>
+      </div>
+
+      <p class="stage-hint">Drag to orbit · Scroll or pinch to zoom · Tap a pin to read it</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>Built with Three.js for a first-week studio brief · Not a substitute for clinical imagery.</p>
+    <p id="model-credit"></p>
+  </footer>
+
+  <!-- About modal -->
+  <div class="modal-backdrop" id="about-backdrop" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="about-title">
+      <button class="info-close" id="about-close" aria-label="Close about panel">×</button>
+      <p class="eyebrow-plain">About this atlas</p>
+      <h2 id="about-title">A real scan, read like a textbook plate</h2>
+      <p>Anatomy Atlas loads a scanned 3D muscular figure and scatters it with clickable
+        pins, colour-coded by body system. The model turns on its own so you can watch it
+        from every angle; drag any time to take over.</p>
+      <p>Every pin carries its own entry — official name, common synonyms, location, size,
+        function and clinical relevance — covering the circulatory, respiratory, nervous,
+        digestive, musculoskeletal and immune systems.</p>
+      <p id="about-credit" class="about-credit"></p>
+      <p>This is a study aid, produced for an educational brief. It is not a diagnostic
+        or clinical-grade reference.</p>
+    </div>
+  </div>
+
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
