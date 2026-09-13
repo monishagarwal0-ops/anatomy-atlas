@@ -83,8 +83,7 @@ controls.dampingFactor = 0.08;
 controls.minDistance = 2.4;
 controls.maxDistance = 10;
 controls.maxPolarAngle = Math.PI * 0.53;
-controls.autoRotate = true;
-controls.autoRotateSpeed = 1.4;
+controls.autoRotate = false;
 controls.update();
 
 // ------------------------------------------------------------------
@@ -105,8 +104,9 @@ function refreshVisualState() {
     const matchesSystem = !activeSystem || (organ && organ.system === activeSystem);
     const isSelected = id === selectedId;
 
-    pin.material.opacity = matchesSystem ? 0.95 : DIM_OPACITY;
-    pin.userData.halo.material.opacity = matchesSystem ? 0.85 : DIM_OPACITY * 0.8;
+    // dots stay invisible regardless of filter/selection state — click still works
+    pin.material.opacity = 0;
+    pin.userData.halo.material.opacity = 0;
 
     const targetScale = isSelected ? HIGHLIGHT_SCALE : 1;
     pin.userData.targetScale = targetScale;
