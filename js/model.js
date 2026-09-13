@@ -57,7 +57,7 @@ function makePin(system) {
     color,
     depthTest: false, // pins always read through the body, like map markers
     transparent: true,
-    opacity: 0.95,
+    opacity: 0, // dots hidden — still clickable, just invisible
   });
   const mesh = new THREE.Mesh(geo, mat);
   mesh.renderOrder = 999;
@@ -68,7 +68,7 @@ function makePin(system) {
     color: 0xffffff,
     depthTest: false,
     transparent: true,
-    opacity: 0.85,
+    opacity: 0, // hidden along with the pin
     side: THREE.DoubleSide,
   });
   const halo = new THREE.Mesh(haloGeo, haloMat);
