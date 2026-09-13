@@ -45,14 +45,37 @@ const HOTSPOTS = [
   { id: "vertebralColumn", yFrac: 0.65, xFrac: 0.0, zFrac: -0.85, system: "musculoskeletal" },
   { id: "ribCage", yFrac: 0.7, xFrac: 0.32, zFrac: 0.3, system: "musculoskeletal" },
   { id: "pelvis", yFrac: 0.47, xFrac: 0.22, zFrac: 0.0, system: "musculoskeletal" },
-  { id: "skeletalMuscle", yFrac: 0.78, xFrac: 0.9, zFrac: 0.0, system: "musculoskeletal" },
 
+  // Arms — several pins spread across a range of x-offsets and heights,
+  // since we can't be 100% sure whether this scan's arms are in a T-pose,
+  // an A-pose, or hanging at the sides; this way at least one lands on
+  // the actual rendered arm no matter which it turns out to be.
+  { id: "skeletalMuscle", yFrac: 0.78, xFrac: 0.9, zFrac: 0.0, system: "musculoskeletal" },
+  { id: "skeletalMuscle", yFrac: 0.72, xFrac: 0.55, zFrac: 0.05, system: "musculoskeletal" },
+  { id: "skeletalMuscle", yFrac: 0.65, xFrac: 0.72, zFrac: 0.0, system: "musculoskeletal" },
   { id: "skin", yFrac: 0.78, xFrac: -0.9, zFrac: 0.0, system: "integumentary" },
+  { id: "skin", yFrac: 0.72, xFrac: -0.55, zFrac: 0.05, system: "integumentary" },
+  { id: "skin", yFrac: 0.65, xFrac: -0.72, zFrac: 0.0, system: "integumentary" },
+
+  // Legs — the SRS has no dedicated leg organs, so these reuse the bone
+  // ("pelvis") and muscle ("skeletalMuscle") entries at thigh/calf/shin
+  // positions, the same way the arm pins above do for the upper body.
+  { id: "pelvis", yFrac: 0.26, xFrac: -0.15, zFrac: 0.08, system: "musculoskeletal" }, // left thigh bone
+  { id: "pelvis", yFrac: 0.26, xFrac: 0.15, zFrac: 0.08, system: "musculoskeletal" }, // right thigh bone
+  { id: "pelvis", yFrac: 0.07, xFrac: -0.12, zFrac: 0.05, system: "musculoskeletal" }, // left shin bone
+  { id: "pelvis", yFrac: 0.07, xFrac: 0.12, zFrac: 0.05, system: "musculoskeletal" }, // right shin bone
+  { id: "skeletalMuscle", yFrac: 0.34, xFrac: -0.16, zFrac: 0.14, system: "musculoskeletal" }, // left thigh muscle
+  { id: "skeletalMuscle", yFrac: 0.34, xFrac: 0.16, zFrac: 0.14, system: "musculoskeletal" }, // right thigh muscle
+  { id: "skeletalMuscle", yFrac: 0.14, xFrac: -0.12, zFrac: 0.12, system: "musculoskeletal" }, // left calf
+  { id: "skeletalMuscle", yFrac: 0.14, xFrac: 0.12, zFrac: 0.12, system: "musculoskeletal" }, // right calf
+  { id: "skin", yFrac: 0.2, xFrac: -0.17, zFrac: 0.17, system: "integumentary" }, // leg skin
 ];
 
 function makePin(system) {
   const color = systemColor(system);
-  const geo = new THREE.SphereGeometry(0.16, 16, 12); 
+  // radius is generous on purpose — the dot itself is invisible, so this
+  // is really just the "touch zone" around each structure
+  const geo = new THREE.SphereGeometry(0.16, 16, 12);
   const mat = new THREE.MeshBasicMaterial({
     color,
     depthTest: false, // pins always read through the body, like map markers
