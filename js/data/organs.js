@@ -229,7 +229,7 @@ export const ORGANS = {
     name: "Skeletal Muscle",
     synonyms: "Voluntary muscle",
     system: "musculoskeletal",
-    location: "Attached to bones throughout the body — shown here at the upper arm.",
+    location: "Attached to bones throughout the body — a few pins on this model mark examples at the arms and legs.",
     size: "600+ individual muscles across the body.",
     structure: "Bundles of long muscle fibres attached to bone by tendons, arranged to pull across a joint.",
     function: "Produces voluntary movement and maintains posture by contracting against the skeleton.",
