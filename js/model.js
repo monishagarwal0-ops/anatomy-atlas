@@ -52,7 +52,7 @@ const HOTSPOTS = [
 
 function makePin(system) {
   const color = systemColor(system);
-  const geo = new THREE.SphereGeometry(0.052, 16, 12);
+  const geo = new THREE.SphereGeometry(0.16, 16, 12); 
   const mat = new THREE.MeshBasicMaterial({
     color,
     depthTest: false, // pins always read through the body, like map markers
