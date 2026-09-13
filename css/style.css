@@ -377,19 +377,11 @@ main#viewer {
 .about-credit { font-size: 0.8rem !important; }
 
 /* =================== RESPONSIVE =================== */
+/* Panel-left / stage-right is kept at EVERY width on purpose (per request) —
+   only the panel's share of the row narrows, and its text shrinks to fit. */
 @media (max-width: 980px) {
   main#viewer {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
-    grid-template-areas:
-      "hero"
-      "stage"
-      "panel";
-  }
-  .stage { min-height: 60vh; }
-  .info-panel {
-    border-right: none;
-    border-top: 1px solid var(--hairline-strong);
+    grid-template-columns: 300px 1fr;
   }
 }
 
@@ -409,12 +401,32 @@ main#viewer {
   .nav-link { text-align: left; border-bottom: none; border-left: 2px solid transparent; }
   .nav-link.is-active { border-left-color: var(--crimson-bright); border-bottom-color: transparent; }
   .hamburger { display: flex; }
-  .hero-copy { padding: 1.5rem 1.25rem 0.5rem; }
   .legend { display: none; }
+
+  main#viewer { grid-template-columns: 42% 58%; }
+
+  .hero-copy { padding: 0.9rem 0.9rem 0.4rem; }
+  .hero-copy h1 { font-size: 1.15rem; }
+  .hero-copy .lede { display: none; } /* saves vertical room for the split view */
+
+  .info-panel { padding: 1rem 0.85rem; }
+  .info-panel-empty h2, #info-name { font-size: 1.05rem; }
+  .info-synonyms { font-size: 0.78rem; }
+  .info-facts {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin: 0.8rem 0;
+    padding: 0.6rem 0;
+  }
+  .info-block { margin-bottom: 0.8rem; }
+  .info-block h3 { font-size: 0.66rem; }
+  .info-block p, .info-panel-empty p:not(.eyebrow-plain) { font-size: 0.82rem; }
 }
 
 @media (max-width: 480px) {
-  .stage-hint { font-size: 0.7rem; white-space: normal; text-align: center; width: 90%; }
+  .stage-hint { font-size: 0.65rem; white-space: normal; text-align: center; width: 85%; padding: 0.3em 0.6em; }
+  main#viewer { grid-template-columns: 40% 60%; }
+  .info-panel { padding: 0.85rem 0.7rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
