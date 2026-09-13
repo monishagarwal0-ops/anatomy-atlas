@@ -28,7 +28,8 @@ const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
 camera.position.set(2.6, 4.0, 5.6);
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+const isSmallScreen = window.innerWidth < 700;
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, isSmallScreen ? 1.5 : 2));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 function resize() {
@@ -84,6 +85,8 @@ controls.minDistance = 2.4;
 controls.maxDistance = 10;
 controls.maxPolarAngle = Math.PI * 0.53;
 controls.autoRotate = false;
+controls.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN };
+controls.rotateSpeed = 1.0;
 controls.update();
 
 // ------------------------------------------------------------------
@@ -162,6 +165,7 @@ renderer.domElement.addEventListener("pointerup", (e) => {
 });
 
 renderer.domElement.addEventListener("pointermove", (e) => {
+  if (e.pointerType === "touch") return; // no hover concept on touch — skip the extra work so dragging stays smooth
   const hit = pickAt(e);
   renderer.domElement.style.cursor = hit ? "pointer" : "grab";
 });
